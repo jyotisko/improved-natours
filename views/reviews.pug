@@ -1,0 +1,31 @@
+extends base
+
+block append head 
+  link(rel='stylesheet' href='/css/review.css')
+
+block content 
+  main.main
+    - if (reviews.length !== 0)
+        .reviews-container 
+          each review in reviews
+            .reviews-card 
+              .deleting 
+                h1 Deleting...
+              .review-card__heading
+                .review-card__image 
+                  .card__picture-overlay &nbsp;
+                  img(src=`/img/tours/${review.tour.imageCover}` alt=`${review.tour.name}`)
+
+                h2.review-card__tour
+                  span= review.tour.name
+
+              .review-card__content
+                p.review-card__review= review.review
+                .reviews-card__rating
+                  each star in [1, 2, 3, 4, 5]
+                    svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                      use(xlink:href='/img/icons.svg#icon-star')
+              img.delete-icon(data-review-id=`${review._id}` src='/img/delete.svg' alt='Delete Review')
+    
+    - if (reviews.length === 0)
+      h1 You don't have any reviews yet! 
