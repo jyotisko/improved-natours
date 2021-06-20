@@ -29,8 +29,9 @@ process.on('unhandledRejection', err => {
   server.close(() => process.exit(1));
 });
 
-///////////////////////////////////////////////////////////////////////////////////////
-// A cluster is a project.
-// 'natours' is a database.
-// mongoose.model('Tour', tourSchema), here 'tours' is collection inside 'natours' database.
-// 'tours' collection has documents.
+process.on('SIGTERM', () => {
+  console.log('😇 SIGTERM RECEIVED. Shutting down gracefully!');
+  server.close(() => {
+    console.log('😭 Process terminated by SIGTERM!');
+  });
+});
