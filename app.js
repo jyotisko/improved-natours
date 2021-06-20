@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp'); // http parameter population
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/apiErrors');
 const globalErrorHandler = require('./controllers/errorController');
@@ -23,10 +24,13 @@ app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.options('*', cors());
 
 // 1) MIDDLEWARES
 app.use(helmet());
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
