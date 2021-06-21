@@ -44,6 +44,8 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
+app.post('/wekhook-checkout', express.raw({ type: 'application/json' }), bookingController.webhookCheckout);
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
@@ -63,7 +65,6 @@ app.use((req, _, next) => {
 });
 
 // 2) ROUTES
-app.post('/wekhook-checkout', bookingController.webhookCheckout);
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
