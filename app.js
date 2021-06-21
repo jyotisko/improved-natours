@@ -17,6 +17,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewsRouter = require('./routes/reviewsRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 
@@ -62,6 +63,7 @@ app.use((req, _, next) => {
 });
 
 // 2) ROUTES
+app.post('/wekhook-checkout', bookingController.webhookCheckout);
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
