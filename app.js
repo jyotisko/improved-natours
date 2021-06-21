@@ -9,6 +9,7 @@ const hpp = require('hpp'); // http parameter population
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const AppError = require('./utils/apiErrors');
 const globalErrorHandler = require('./controllers/errorController');
@@ -44,7 +45,7 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-app.post('/wekhook-checkout', express.raw({ type: 'application/json' }), bookingController.webhookCheckout);
+app.post('/wekhook-checkout', bodyParser.raw({ type: 'application/json' }), bookingController.webhookCheckout);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
