@@ -51,7 +51,7 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   next();
 }); */
 
-const createBookingCheckout = catchAsync(async session => {
+const createBookingCheckout = async session => {
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email }))._id;
   const price = session.display_items[0].amount / 100;
@@ -60,7 +60,7 @@ const createBookingCheckout = catchAsync(async session => {
     tour: tour,
     price: price
   });
-});
+};
 
 exports.webhookCheckout = (req, res, next) => {
   const signature = req.headers['stripe-signature'];
