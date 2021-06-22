@@ -5,6 +5,7 @@ import { auth, logout } from './auth.js';
 import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
 import { starHandler, submitReview, deleteReview } from './review';
+import { showAlert } from './alerts.js';
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
@@ -99,18 +100,23 @@ if (reviewFormStars) {
 
 if (reviewForm) {
   reviewForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const { tour, user, rating } = document.querySelector('.review__ratings').dataset;
-    const review = document.querySelector('#review-text').value;
+    try {
+      e.preventDefault();
+      const { tour, user, rating } = document.querySelector('.review__ratings').dataset;
+      const review = document.querySelector('#review-text').value;
 
-    await submitReview({
-      tour: tour,
-      user: user,
-      rating: rating,
-      review: review
-    });
+      await submitReview({
+        tour: tour,
+        user: user,
+        rating: rating,
+        review: review
+      });
 
-    document.querySelector('.review').remove();
+      document.querySelector('.review').remove();
+    } catch (err) {
+      if (err.message === 'Please provide a rating!') return showAlert('error', 'Please provide a rating!');
+      showAlert('error', err.response.data.message)
+    }
   });
 }
 

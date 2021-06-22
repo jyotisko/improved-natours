@@ -26,7 +26,7 @@ export const starHandler = () => {
 
 export const submitReview = async data => {
   try {
-    if (data.rating <= 0) return showAlert('error', 'Please provide a rating');
+    if (data.rating <= 0) throw new Error('Please provide a rating!');
 
     const res = await axios({
       method: 'POST',
@@ -40,7 +40,7 @@ export const submitReview = async data => {
     }
 
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    throw err;
   }
 };
 
